@@ -68,7 +68,14 @@ selected = option_menu(
     orientation="horizontal",
 )
 #st.download_button(label="download data set for testing",data="file")
-uploaded_file = st.sidebar.file_uploader("Choose a file")
+#uploaded_file = st.sidebar.file_uploader("Choose a file")
+uploaded_file1=st.sidebar.file_uploader("upload a .txt file",type=["txt"])
+if uploaded_file1 is not None:
+    if uploaded_file1.type == "text/plain":
+        st.sidebar.success("File uploaded successfully")
+    else:
+        st.sidebar.warning("Upload a .txt file")
+
 #st.sidebar.download_button(label="Download dataset for testing",data="csv",file_name="wbs_data",mime='text/csv')
 #st.download_button(label="download data set for testing",data="file")
 if selected == "Home":
@@ -78,8 +85,8 @@ if selected == "Home":
     # Main heading
     st.markdown("<h1 style='text-align: center; color: grey;'>Whatsapp Bussiness Visualizer</h1>",
                 unsafe_allow_html=True)
-    if uploaded_file is not None:
-        bytes_data = uploaded_file.getvalue()
+    if uploaded_file1 is not None:
+        bytes_data = uploaded_file1.getvalue()
         # yeh data byte data ka stream hai isse string mein convert krna pdeega
         data = bytes_data.decode('utf-8')
         # ab file ka data screen pe dikhne lagega
@@ -121,26 +128,26 @@ if selected == "Home":
             col1, col2, col3, col4,col5 = st.columns(5)
 
             with col1:
-                st.markdown("<h2 style='text-align: left; color = #26495C;border-style: solid;'>Total Messages</h2>",
+                st.markdown("<h5 style='text-align: left; color = #26495C;border-style: solid;'>Total Messages</h5>",
                             unsafe_allow_html=True)
                 st.title(num_messages)
             with col2:
-                st.markdown("<h2 style='text-align: left; color = #26495C;border-style: solid;'>Total Words</h2>",
+                st.markdown("<h5 style='text-align: left; color = #26495C;border-style: solid;'>Total Words</h5>",
                             unsafe_allow_html=True)
 
                 # st.markdown('<p class="big-font">Total  Words </p>', unsafe_allow_html=True)
                 st.title(words)
             with col3:
 
-                st.markdown("<h2 style='text-align: left; color = #26495C;border-style: solid;'>Media Messages</h2>",
+                st.markdown("<h5 style='text-align: left; color = #26495C;border-style: solid;'>Media Messages</h5>",
                             unsafe_allow_html=True)
                 st.title(num_media_messages)
             with col4:
-                st.markdown("<h2 style='text-align: left; color = #26495C;border-style: solid;'>Links Shared</h2>",
+                st.markdown("<h5 style='text-align: left; color = #26495C;border-style: solid;'>Links Shared</h5>",
                             unsafe_allow_html=True)
                 st.title(num_of_links)
             with col5:
-                st.markdown("<h2 style='text-align: left; color = #26495C;border-style: solid;'>Number of users</h2>",
+                st.markdown("<h5 style='text-align: left; color = #26495C;border-style: solid;'>Number of users</h5>",
                             unsafe_allow_html=True)
                 st.title(unique_counts)
 
@@ -331,25 +338,60 @@ if selected == "Home":
                 except:
                     pass
 
+
+
+
+
+
+
+
 if selected == "Dashboard":
+
+
+
 
     st.write(
         "<h2 style='text-align: center;'>User to User comparision</h2>",
         # font-size: 16px;'>User 1</h1>",
         unsafe_allow_html=True)
     st.write(
-        "<h3 style='text-align: center;'>Instructions</h3",
+        "<h4 style='text-align: center;'>Instructions</h4",
         # font-size: 16px;'>User 1</h1>",
         unsafe_allow_html=True)
     st.write(
-        "<h4 style='text-align: left;'>1: Write (name,name of first user,name of second user) for    Pie-Chart and Scatter Plot comparision.</h4",
+        "<h5 style='text-align: left;'>1: Write (name,name of first user,name of second user)for Pie-chart,Scatter plot,Words.</h5",
         # font-size: 16px;'>User 1</h1>",
         unsafe_allow_html=True)
     st.write(
-        "<h4 style='text-align: left;'>2: Write (user,name of first user,name of second user) for wordcloud,Types of Words,Similar users and text summary comparision.</h4",
+        "<h5 style='text-align: left;'>2: Write (user,name of first user,name of second user) for Similar users and text summary .</h5",
 
         # font-size: 16px;'>User 1</h1>",
         unsafe_allow_html=True)
+    bytes_data = uploaded_file1.getvalue()
+    # yeh data byte data ka stream hai isse string mein convert krna pdeega
+    data = bytes_data.decode('utf-8')
+    # ab file ka data screen pe dikhne lagega
+    df = preprocessor.preprocess(data)
+    st.write(
+        "<h3 style='text-align: center;'>Available Users</h3>",
+        # font-size: 16px;'>User 1</h1>",
+        unsafe_allow_html=True)
+    # st.title("Available Users")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        first_one_third = Helper.name(df)
+        first_one_third
+
+    with col2:
+        middle_one_third = Helper.namee(df)
+        middle_one_third
+    with col3:
+        remaining = Helper.names(df)
+        remaining
+
+
 
 
     import openai
@@ -413,7 +455,7 @@ if selected == "Dashboard":
 
 
     def get_text():
-        input_text = st.text_input("", "user/name,name of 1st user,name of 2nd user", key="input")
+        input_text = st.text_input("", placeholder="user/name,name of 1st user,name of 2nd user", key="input")
         return input_text
 
 
@@ -422,14 +464,17 @@ if selected == "Dashboard":
         try:
             # Main heading
             a, b, c = user_input.split(",")
-            selecte_user = [b, c]
-            if uploaded_file is not None:
-                bytes_data = uploaded_file.getvalue()
+            selected_user = [b, c]
+
+            if uploaded_file1 is not None:
+                bytes_data = uploaded_file1.getvalue()
                 # yeh data byte data ka stream hai isse string mein convert krna pdeega
                 data = bytes_data.decode('utf-8')
                 # ab file ka data screen pe dikhne lagega
                 df = preprocessor.preprocess(data)
                 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+
 
 
                 def sentiment(d):
@@ -455,32 +500,137 @@ if selected == "Dashboard":
 
                 df['score'] = df.apply(lambda row: sentiment2(row), axis=1)
 
+
+
+
+
+
+
+            #if selecte_user in list(df["user"]):
+
+            if not (df["user"].isin([b, c])).any():
+                st.warning("Users not available")
+            elif not (df["user"].isin([b])).any():
+                st.warning("First user is not available")
+            elif not (df["user"].isin([c])).any():
+                st.warning("Second user is not available")
+            #elif (b in (df.users).any()) and (c not in (df.users).any()):
+                #st.warning("c user does not exist")
+            #elif (c in (df.users).any()) and (b not in (df.users).any()):
+                #st.warning("b user does not exist")
+
+            # elif not (df['user'].isin(b)).any() and (df['user'].isin(c)).any():
+            #     st.warning("b Users not available")
+            #
+            # elif not (df['user'].isin(c)).any() and (df['user'].isin(b)).any():
+            #     st.warning("c Users not available")
+            #if b   and c not in df["user"]:
+                #st.warning("p")
+            #elif b  in df["user"] or c not in df["user"]:
+                #st.warning("O")
+            #elif c in df["user"] or b not in df["user"]:
+                #st.warning("l")
+
+
+
+            #elif selected_user[0] not in df["user"] and selected_user[1] in df["user"]:
+                #st.warning("One User is not available")
+            #elif selected_user[0] in df["user"] and selected_user[1] not in df["user"]:
+                #st.warning("One User is not available")
+
+            # st.warning("Enter Valid users")
+            #if '' in [b,c]:
+                #st.warning("Enter users name")
+            else:
+                col1, col2 = st.columns(2)
                 st.write(
-                    "<h3 style='text-align: center;'>Available Users</h3>",
+                    "<h3 style='text-align: center;'>Pie Chart showing the percentage of positive,negative and neutral sentiments</h3>",
                     # font-size: 16px;'>User 1</h1>",
                     unsafe_allow_html=True)
-                #st.title("Available Users")
-                col1,col2,col3=st.columns(3)
-                #with col1:
-                    #middle_one_third=Helper.namee(df)
-                    #middle_one_third
-
-                #with col2:
-                    #df2=df2.Helper(df)
-                    #df2
-                #with col3:
-                    #df3=df3.Helper(df)
-                    #df3
                 with col1:
-                    first_one_third=Helper.name(df)
-                    first_one_third
+
+                    #st.text_input("selecte_user[0]")
+                    #st.write(f"#{}")
+                    # df["user"]=selecte_user[0]
+                    selecte_user = list(df["user"])
+                    st.header(selected_user[0])
+                    #st.markdown("<h1 style='font-size: 48px;'>(selected_user[0]</h1)>", unsafe_allow_html=True)
+
+
+                    for i in df["user"].unique():
+                        a = df[df['user'] == selected_user[0]]["pos"].sum()
+                        b = df[df["user"] == selected_user[0]]["neg"].sum()
+                        c = df[df["user"] == selected_user[0]]["nu"].sum()
+                        arr = [((a / (a + b + c)) * 100), ((b / (a + b + c)) * 100),
+                               ((c / (a + b + c)) * 100)]
+                        af = pd.DataFrame({'sentiment': ['positive', 'negative', 'neutral'], 'percentage': arr})
+                        if  i == selecte_user[0]:
+                            fig = px.pie(af, values='percentage', names='sentiment',
+                                         color_discrete_sequence=['#ff1a1a', '#33cc33', '#4d79ff'])
+                            fig.update_traces(textposition='inside', textinfo='percent', pull=0.1)
+                            fig
+            #except:
+                #pass
 
                 with col2:
-                    middle_one_third=Helper.namee(df)
-                    middle_one_third
-                with col3:
-                    remaining=Helper.names(df)
-                    remaining
+                    #st.write(f"#{}")
+                    selecte_user = list(df["user"])
+                    st.header(selected_user[1])
+
+
+                    for i in df["user"].unique():
+                        a = df[df['user'] ==selected_user[1] ]["pos"].sum()
+                        b = df[df["user"] == selected_user[1]]["neg"].sum()
+                        c = df[df["user"] == selected_user[1]]["nu"].sum()
+                        arr = [((a / (a + b + c)) * 100), ((b / (a + b + c)) * 100),
+                               ((c / (a + b + c)) * 100)]
+                        af = pd.DataFrame({'sentiment': ['positive', 'negative', 'neutral'], 'percentage': arr})
+                        if i == selecte_user[1]:
+                            fig = px.pie(af, values='percentage', names='sentiment',
+                                         color_discrete_sequence=['#ff1a1a', '#33cc33', '#4d79ff']);
+                            fig.update_traces(textposition='inside', textinfo='percent', pull=0.1)
+                            fig
+                col1, col2 = st.columns(2)
+                st.write(
+                    "<h3 style='text-align: center;'>Scatter Plot shows spread of Positive,Negative,Neutral Words</h3>",
+                    # font-size: 16px;'>User 1</h1>",
+                    unsafe_allow_html=True)
+                with col1:
+                    selecte_user = list(df["user"])
+                    st.header(selected_user[0])
+
+                    #df["user"] = selecte_user[0]
+                    # selecte_user = df["user"]
+                    for i in df["user"].unique():
+                        a = df.loc[df['user'] == selected_user[0]]["pos"].tolist()
+
+                        b = df.loc[df["user"] == selected_user[0]]["neg"].tolist()
+                        c = df.loc[df["user"] == selected_user[0]]["nu"].tolist()
+                        # arr = [((a / (a + b + c)) * 100), ((b / (a + b + c)) * 100),
+                        # ((c / (a + b + c)) * 100)]
+                        af1 = pd.DataFrame({'Positive': a, 'Neutral': b, 'Negative': c})
+                        if i == selecte_user[0]:
+                            fig = px.scatter(af1)  # , values='percentage', names='sentiment',
+                            # color_discrete_sequence=['#ff1a1a', '#33cc33', '#4d79ff'])
+                            # fig.update_traces(textposition='inside', textinfo='percent', pull=0.1)
+                            fig
+                with col2:
+                    selecte_user = list(df["user"])
+                    st.header(selected_user[1])
+                    #df["user"] = selecte_user[1]
+                    # selecte_user = df["user"]
+                    for i in df["user"].unique():
+                        a3 = df.loc[df['user'] == selected_user[1]]["pos"].tolist()
+                        b3 = df.loc[df["user"] == selected_user[1]]["neg"].tolist()
+                        c3 = df.loc[df["user"] == selected_user[1]]["nu"].tolist()
+                        # arr = [((a / (a + b + c)) * 100), ((b / (a + b + c)) * 100),
+                        # ((c / (a + b + c)) * 100)]
+                        af2 = pd.DataFrame({'Positive': a3, 'Neutral': b3, 'Negative': c3})
+                        if i == selecte_user[1]:
+                            fig = px.scatter(af2)  # , values='percentage', names='sentiment',
+                            # color_discrete_sequence=['#ff1a1a', '#33cc33', '#4d79ff'])
+                            # fig.update_traces(textposition='inside', textinfo='percent', pull=0.1)
+                            fig
 
 
 
@@ -513,22 +663,28 @@ if selected == "Dashboard":
                 col1, col2 = st.columns(2)
 
                 with col1:
+                    selecte_user = list(df["user"])
+                    st.header(selected_user[0])
                     df_wc = Helper.create_wordcloud(selecte_user[0], df)
                     fig, ax = plt.subplots()
                     plt.imshow(df_wc)
                     st.pyplot(fig)
                 with col2:
+                    selecte_user = list(df["user"])
+                    st.header(selected_user[1])
                     df_wc = Helper.create_wordcloud(selecte_user[1], df)
                     fig, ax = plt.subplots()
                     plt.imshow(df_wc)
                     st.pyplot(fig)
                 st.write(
-                    "<h3 style='text-align: center;'>Most Positive Words</h3>",
+                    "<h3 style='text-align: center;'>Word Cloud</h3>",
                     # font-size: 16px;'>User 1</h1>",
                     unsafe_allow_html=True)
                 #st.title('Most Positive Words')
                 col1, col2 = st.columns(2)
                 with col1:
+                    selecte_user = list(df["user"])
+                    st.header(selected_user[0])
                     try:
                         most_common_df = Helper.most_common_words(selecte_user[0], df, 1)
                         fig, ax = plt.subplots()
@@ -539,6 +695,8 @@ if selected == "Dashboard":
                     except:
                         pass
                 with col2:
+                    selecte_user = list(df["user"])
+                    st.header(selected_user[1])
                     try:
                         most_common_df = Helper.most_common_words(selecte_user[1], df, 1)
                         word = most_common_df['word']
@@ -549,11 +707,13 @@ if selected == "Dashboard":
                         pass
                 #st.title('Most Negative Words')
                 st.write(
-                    "<h3 style='text-align: center;'>Most Negative Words</h3>",
+                    "<h3 style='text-align: center;'>Most Positive Words</h3>",
                     # font-size: 16px;'>User 1</h1>",
                     unsafe_allow_html=True)
                 col1, col2 = st.columns(2)
                 with col1:
+                    selecte_user = list(df["user"])
+                    st.header(selected_user[0])
                     try:
                         most_common_df = Helper.most_common_words(selecte_user[0], df, -1)
                         fig, ax = plt.subplots()
@@ -564,6 +724,8 @@ if selected == "Dashboard":
                     except:
                         pass
                 with col2:
+                    selecte_user = list(df["user"])
+                    st.header(selected_user[1])
                     try:
                         most_common_df = Helper.most_common_words(selecte_user[1], df, -1)
                         word = most_common_df['word']
@@ -573,162 +735,412 @@ if selected == "Dashboard":
                     except:
                         pass
                 st.write(
-                    "<h3 style='text-align: center;'>Similar Users and Summary</h3>",
+                    "<h3 style='text-align: center;'>Most Negative Words</h3>",
                     # font-size: 16px;'>User 1</h1>",
                     unsafe_allow_html=True)
+
+                #st.write(
+                    #"<h3 style='text-align: center;'>Similar Users and Summary</h3>",
+                    # font-size: 16px;'>User 1</h1>",
+                    #unsafe_allow_html=True)
                 #st.title('Similar Users and Text Summary')
-                col1, col2 = st.columns(2)
-                def find(df1, df2):
-                    message1 = ''
-                    message2 = ''
-                    count = 0
-                    for i in df1['message']:
-                        if count >= 50:
-                            break
-                        message1 += i
-                        count += 1
-                    count = 0
-                    for j in df2['message']:
-                        if count >= 50:
-                            break
-                        message2 += j
-                        count += 1
-                    doc1 = nlp(message1)
-                    doc2 = nlp(message2)
-                    return doc1.similarity(doc2)
-                user_ = df.user.unique()
+                #col1, col2 = st.columns(2)
+                #def find(df1, df2):
+                    #message1 = ''
+                    #message2 = ''
+                    #count = 0
+                    #for i in df1['message']:
+                        #if count >= 50:
+                            #break
+                        #message1 += i
+                        #count += 1
+                    #count = 0
+                    #for j in df2['message']:
+                        #if count >= 50:
+                            #break
+                        #message2 += j
+                        #count += 1
+                    #doc1 = nlp(message1)
+                    #doc2 = nlp(message2)
+                    #return doc1.similarity(doc2)
+                #user_ = df.user.unique()
 
-                with col1:
-                    score = []
-                    this_set = set()
-                    df1 = df[df['user'] == selecte_user[0]]
-                    for j in user_:
-                        if user_[0] != j:
-                            df2 = df[df['user'] == j]
-                            score.append((find(df1, df2), j))
-                    score.sort(reverse=True)
-                    score = score[:20]
-                    percentage = []
-                    names = []
-                    for i in score:
-                        percentage.append(i[0] * 100)
-                        names.append(i[1])
-                    df3 = pd.DataFrame({
-                        'name': names,
-                        'percent': percentage
-                    })
-                    fig = px.bar(df3, x='name', y='percent', color='name', color_continuous_scale=['Greens'], width = 450)
-                    fig
-                with col2:
-                    score = []
-                    this_set = set()
-                    df1 = df[df['user'] == selecte_user[1]]
-                    for j in user_:
-                        if user_[0] != j:
-                            df2 = df[df['user'] == j]
-                            score.append((find(df1, df2), j))
-                    score.sort(reverse=True)
-                    score = score[:20]
-                    percentage = []
-                    names = []
-                    for i in score:
-                        percentage.append(i[0] * 100)
-                        names.append(i[1])
-                    df3 = pd.DataFrame({
-                        'name': names,
-                        'percent': percentage
-                    })
-                    fig = px.bar(df3, x='name', y='percent', color='name', color_continuous_scale=['Greens'], width = 450)
-                    fig
+                #with col1:
+                    #score = []
+                    #this_set = set()
+                    #df1 = df[df['user'] == selecte_user[0]]
+                    #for j in user_:
+                        #if user_[0] != j:
+                            #df2 = df[df['user'] == j]
+                            #score.append((find(df1, df2), j))
+                    #score.sort(reverse=True)
+                    #score = score[:20]
+                    #percentage = []
+                    #names = []
+                    #for i in score:
+                        #percentage.append(i[0] * 100)
+                        #names.append(i[1])
+                    #df3 = pd.DataFrame({
+                        #'name': names,
+                        #'percent': percentage
+                    #})
+                    #fig = px.bar(df3, x='name', y='percent', color='name', color_continuous_scale=['Greens'], width = 450)
+                    #fig
+                #with col2:
+                    #score = []
+                    #this_set = set()
+                    #df1 = df[df['user'] == selecte_user[1]]
+                    #for j in user_:
+                        #if user_[0] != j:
+                            #df2 = df[df['user'] == j]
+                            #score.append((find(df1, df2), j))
+                    #score.sort(reverse=True)
+                    #score = score[:20]
+                    #percentage = []
+                    #names = []
+                    #for i in score:
+                        #percentage.append(i[0] * 100)
+                        #names.append(i[1])
+                    #df3 = pd.DataFrame({
+                        #'name': names,
+                        #'percent': percentage
+                    #})
+                    #fig = px.bar(df3, x='name', y='percent', color='name', color_continuous_scale=['Greens'], width = 450)
+                    #fig
 
-                with col1:
-                    summary = Helper.summ(df, selecte_user[0])
-                    st.markdown(summary)
-                with col2:
-                    summary = Helper.summ(df, selecte_user[1])
-                    st.markdown(summary)
+                #with col1:
+                    #summary = Helper.summ(df, selecte_user[0])
+                    #st.markdown(summary)
+                #with col2:
+                    #summary = Helper.summ(df, selecte_user[1])
+                    #st.markdown(summary)
+                #col1,col2=st.columns(2)
+                #with col1:
+                    #for i in df11[user].unique()[:10]:
+                        #a1=df11[df11["user"]==selecte_user[0]]["pos"].values()
+                        #b1=df11[df11["user"]==selecte_user[0]]["neg"].values()
+                        #c1=df11[df11['user']==selecte_user[0]]["nu"].values()
+                        #df101=pd.DataFrame({'c11':a1,'b11':b1,'c3':c1})
+                        #fig=px.scatter(df101,x='s',y='w')
+            #else:
+                #st.warning("Invalid Users")
+
+                #except:
+                    #pass
+            #try:
+             #if b not in df["user"] and c  not in df["user"]:
+                 #st.warning("Enter Valid users")
+            #except:
+                #pass
+        #else:
+            #else:
+                #st.warning("O")
         except:
             pass
-    elif user_input[:4] == 'name':
+    #elif user_input = get_text()
+    if  user_input[:4] == 'name':
+        try:
+            # Main heading
+            a, b, c = user_input.split(",")
+            selected_user = [b, c]
 
-            a = user_input
-            data_points = 1500
-            if uploaded_file is not None:
-                bytes_data = uploaded_file.getvalue()
+            if uploaded_file1 is not None:
+                bytes_data = uploaded_file1.getvalue()
                 # yeh data byte data ka stream hai isse string mein convert krna pdeega
                 data = bytes_data.decode('utf-8')
                 # ab file ka data screen pe dikhne lagega
-                df11, df12 = preprocessor.preprocessor5(data, int(data_points))
+                df = preprocessor.preprocess(data)
                 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 
                 def sentiment(d):
-                    if d["pos"] >= d["neg"] and d["pos"] >= 0.1:
+                    if d["pos"] >= d["neg"] and d["pos"] >= d["nu"]:
                         return 1
-                    elif d["neg"] >= d["pos"] and d["neg"] >= 0.1:
+                    if d["neg"] >= d["pos"] and d["neg"] >= d["nu"]:
                         return -1
-                    else:
+                    if d["nu"] >= d["pos"] and d["nu"] >= d["neg"]:
                         return 0
 
 
                 # Object
                 sentiments = SentimentIntensityAnalyzer()
-                df11["pos"] = [sentiments.polarity_scores(i)["pos"] for i in df11["message"]]  # Positive
-                df11["neg"] = [sentiments.polarity_scores(i)["neg"] for i in df11["message"]]  # Negative
-                df11["nu"] = [sentiments.polarity_scores(i)["neu"] for i in df11["message"]]
-                df11['value'] = df11.apply(lambda row: sentiment(row), axis=1)
-
-                df12["pos"] = [sentiments.polarity_scores(i)["pos"] for i in df12["message"]]  # Positive
-                df12["neg"] = [sentiments.polarity_scores(i)["neg"] for i in df12["message"]]  # Negative
-                df12["nu"] = [sentiments.polarity_scores(i)["neu"] for i in df12["message"]]
-                df12['value'] = df12.apply(lambda row: sentiment(row), axis=1)
+                df["pos"] = [sentiments.polarity_scores(i)["pos"] for i in df["message"]]  # Positive
+                df["neg"] = [sentiments.polarity_scores(i)["neg"] for i in df["message"]]  # Negative
+                df["nu"] = [sentiments.polarity_scores(i)["neu"] for i in df["message"]]
+                df['value'] = df.apply(lambda row: sentiment(row), axis=1)
 
 
                 def sentiment2(d):
                     return d["pos"] - d["neg"]
 
 
-                df11['score'] = df11.apply(lambda row: sentiment2(row), axis=1)
-                df12['score'] = df12.apply(lambda row: sentiment2(row), axis=1)
+                df['score'] = df.apply(lambda row: sentiment2(row), axis=1)
 
-                #st.title('Pie Chart shows percentage of Negative,Positive,Neutral Sentiments')
                 st.write(
-                    "<h3 style='text-align: center;'>'Pie Chart shows percentage of Negative,Positive,Neutral Sentiments'</h3>",
+                        "<h3 style='text-align: center;'>Available Users</h3>",
                     # font-size: 16px;'>User 1</h1>",
-                    unsafe_allow_html=True)
-                col1, col2 = st.columns(2)
+                        unsafe_allow_html=True)
+
+                #st.title("Available Users")
+                col1,col2,col3=st.columns(3)
+                #with col1:
+                    #middle_one_third=Helper.namee(df)
+                    #middle_one_third
+
+                #with col2:
+                    #df2=df2.Helper(df)
+                    #df2
+                #with col3:
+                    #df3=df3.Helper(df)
+                    #df3
                 with col1:
-                    p = len(df11[df11['value'] == 1])
-                    neg = len(df11[df11['value'] == -1])
-                    nu = len(df11[df11['value'] == 0])
-                    arr = [int((p / (p + neg + nu)) * 100+10), int((neg / (p + neg + nu)) * 100+10),
-                           int((nu / (p + neg + nu)) * 100-20)]
-                    af11 = pd.DataFrame(
-                        {'sentiment': ['positive', 'negative', 'neutral'], 'percentage': arr})
-                    colors  = ['FF0000','0000FF','00FF00']
-                    fig = px.pie(af11, values='percentage', names='sentiment', color_discrete_sequence=['#4d79ff', '#33cc33', '#ff1a1a'] )
-                    fig.update_traces(textposition='inside', textinfo='percent')
-                    fig.update_layout(width=350, height=350)
-                    fig.update_layout(
-                        title='User1'
-                                        )
-                    fig
+                    first_one_third=Helper.name(df)
+                    first_one_third
 
                 with col2:
-                    p = len(df12[df12['value'] == 1])
-                    neg = len(df12[df12['value'] == -1])
-                    nu = len(df12[df12['value'] == 0])
-                    arr = [int((p / (p + neg + nu)) * 100-5), int((neg / (p + neg + nu)) * 100 + 30),
-                           int((nu / (p + neg + nu)) * 100-25)]
-                    af12 = pd.DataFrame(
-                        {'sentiment': ['positive', 'neutral', 'negative'], 'percentage': arr})
-                    fig = px.pie(af12, values='percentage', names='sentiment',color_discrete_sequence=['#4d79ff', '#33cc33', '#ff1a1a'] )#neutral,negative,positive
-                    fig.update_traces(textposition='inside', textinfo='percent')
-                    fig.update_layout(width=350, height=350)
-                    fig.update_layout(
-                        title='User2'
-                    )
+                    middle_one_third=Helper.namee(df)
+                    middle_one_third
+                with col3:
+                    remaining=Helper.names(df)
+                    remaining
+
+        except:
+            pass
+
+
+
+
+
+
+            col1, col2 = st.columns(2)
+
+        try:
+            def find(df1, df2):
+                message1 = ''
+                message2 = ''
+                count = 0
+                for i in df1['message']:
+                    if count >= 50:
+                        break
+                    message1 += i
+                    count += 1
+                count = 0
+                for j in df2['message']:
+                    if count >= 50:
+                        break
+                    message2 += j
+                    count += 1
+                doc1 = nlp(message1)
+                doc2 = nlp(message2)
+                return doc1.similarity(doc2)
+
+
+            user_ = df.user.unique()
+        except:
+            pass
+        try:
+
+            with col1:
+                selecte_user = list(df["user"])
+                st.header(selected_user[0])
+
+
+                st.write(
+                    "<h3 style='text-align: center;'>Similar users and Text Summary</h3>",
+                    # font-size: 16px;'>User 1</h1>",
+                    unsafe_allow_html=True)
+
+
+                score = []
+                this_set = set()
+                df1 = df[df['user'] == selecte_user[0]]
+                for j in user_:
+                    if user_[0] != j:
+                        df2 = df[df['user'] == j]
+                        score.append((find(df1, df2), j))
+                score.sort(reverse=True)
+                score = score[:20]
+                percentage = []
+                names = []
+                for i in score:
+                    percentage.append(i[0] * 100)
+                    names.append(i[1])
+                df3 = pd.DataFrame({
+                    'name': names,
+                    'percent': percentage
+                })
+                fig = px.bar(df3, x='name', y='percent', color='name', color_continuous_scale=['Greens'], width=450)
+                fig
+        except:
+            pass
+        try:
+            with col2:
+                selecte_user = list(df["user"])
+                st.header(selected_user[1])
+                st.write(
+                    "<h3 style='text-align: center;'>Similar users and Text Summary</h3>",
+                    # font-size: 16px;'>User 1</h1>",
+                    unsafe_allow_html=True)
+                score = []
+                this_set = set()
+                df1 = df[df['user'] == selecte_user[1]]
+                for j in user_:
+                    if user_[0] != j:
+                        df2 = df[df['user'] == j]
+                        score.append((find(df1, df2), j))
+                score.sort(reverse=True)
+                score = score[:20]
+                percentage = []
+                names = []
+                for i in score:
+                    percentage.append(i[0] * 100)
+                    names.append(i[1])
+                df3 = pd.DataFrame({
+                    'name': names,
+                    'percent': percentage
+                })
+                fig = px.bar(df3, x='name', y='percent', color='name', color_continuous_scale=['Greens'], width=450)
+                fig
+
+            with col1:
+                summary = Helper.summ(df, selecte_user[0])
+                st.markdown(summary)
+            with col2:
+                summary = Helper.summ(df, selecte_user[1])
+                st.markdown(summary)
+            col1, col2 = st.columns(2)
+
+            with col1:
+                for i in df11[user].unique()[:10]:
+                    a1 = df11[df11["user"] == selecte_user[0]]["pos"].values()
+                    b1 = df11[df11["user"] == selecte_user[0]]["neg"].values()
+                    c1 = df11[df11['user'] == selecte_user[0]]["nu"].values()
+                    df101 = pd.DataFrame({'c11': a1, 'b11': b1, 'c3': c1})
+                    fig = px.scatter(df101, x='s', y='w')
                     fig
+
+        except:
+            pass
+    #elif user_input[:4] == 'name':
+
+            #a = user_input
+
+            #data_points = 1500
+            #if uploaded_file is not None:
+                #bytes_data = uploaded_file.getvalue()
+                # yeh data byte data ka stream hai isse string mein convert krna pdeega
+                #data = bytes_data.decode('utf-8')
+                # ab file ka data screen pe dikhne lagega
+                #df11, df12 = preprocessor.preprocessor5(data, int(data_points))
+                #from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+
+                #def sentiment(d):
+                    #if d["pos"] >= d["neg"] and d["pos"] >= 0.1:
+                        #return 1
+                    #elif d["neg"] >= d["pos"] and d["neg"] >= 0.1:
+                        #return -1
+                    #else:
+                        #return 0
+
+
+                # Object
+                #sentiments = SentimentIntensityAnalyzer()
+                #df11["pos"] = [sentiments.polarity_scores(i)["pos"] for i in df11["message"]]  # Positive
+                #df11["neg"] = [sentiments.polarity_scores(i)["neg"] for i in df11["message"]]  # Negative
+                #df11["nu"] = [sentiments.polarity_scores(i)["neu"] for i in df11["message"]]
+                #df11['value'] = df11.apply(lambda row: sentiment(row), axis=1)
+
+                #df12["pos"] = [sentiments.polarity_scores(i)["pos"] for i in df12["message"]]  # Positive
+                #df12["neg"] = [sentiments.polarity_scores(i)["neg"] for i in df12["message"]]  # Negative
+                #df12["nu"] = [sentiments.polarity_scores(i)["neu"] for i in df12["message"]]
+                #df12['value'] = df12.apply(lambda row: sentiment(row), axis=1)
+
+
+                #def sentiment2(d):
+                    #return d["pos"] - d["neg"]
+
+
+                #df11['score'] = df11.apply(lambda row: sentiment2(row), axis=1)
+                #df12['score'] = df12.apply(lambda row: sentiment2(row), axis=1)
+
+                #col1,=st.columns(1)
+                #with col1:
+                    #u=Helper.namq(df11)
+                #st.write(
+                    #"<h3 style='text-align: center;'>Available Users</h3>",
+                    # font-size: 16px;'>User 1</h1>",
+                    #unsafe_allow_html=True)
+                # st.title("Available Users")
+                #col1, col2, col3 = st.columns(3)
+                # with col1:
+                # middle_one_third=Helper.namee(df)
+                # middle_one_third
+
+                # with col2:
+                # df2=df2.Helper(df)
+                # df2
+                # with col3:
+                # df3=df3.Helper(df)
+                # df3
+                #with col1:
+                    #first_one_third = Helper.nameq(df11)
+                    #first_one_third
+
+                #with col2:
+                    #middle_one_third = Helper.namer(df11)
+                    #middle_one_third
+                #with col3:
+                    #remaining = Helper.namep(df11)
+                    #remaining
+                    #u
+
+
+
+
+
+
+
+
+
+
+                #st.title('Pie Chart shows percentage of Negative,Positive,Neutral Sentiments')
+                #st.write(
+                    #"<h3 style='text-align: center;'>'Pie Chart shows percentage of Negative,Positive,Neutral Sentiments'</h3>",
+                    # font-size: 16px;'>User 1</h1>",
+                    #unsafe_allow_html=True)
+                #col1, col2 = st.columns(2)
+                #with col1:
+                    #p = len(df11[df11['value'] == 1])
+                    #neg = len(df11[df11['value'] == -1])
+                    #nu = len(df11[df11['value'] == 0])
+                    ##int((nu / (p + neg + nu)) * 100-20)]
+                    #af11 = pd.DataFrame(
+                        #{'sentiment': ['positive', 'negative', 'neutral'], 'percentage': arr})
+                    #colors  = ['FF0000','0000FF','00FF00']
+                    #fig = px.pie(af11, values='percentage', names='sentiment', color_discrete_sequence=['#4d79ff', '#33cc33', '#ff1a1a'] )
+                    #fig.update_traces(textposition='inside', textinfo='percent')
+                    #fig.update_layout(width=350, height=350)
+                    #fig.update_layout(
+                        #title='User1'
+                                      #  )
+                    #fig
+
+                #with col2:
+                    #p = len(df12[df12['value'] == 1])
+                    #neg = len(df12[df12['value'] == -1])
+                    #nu = len(df12[df12['value'] == 0])
+                    #arr = [int((p / (p + neg + nu)) * 100-5), int((neg / (p + neg + nu)) * 100 + 30),
+                           #int((nu / (p + neg + nu)) * 100-25)]
+                    #af12 = pd.DataFrame(
+                        #{'sentiment': ['positive', 'neutral', 'negative'], 'percentage': arr})
+                    #fig = px.pie(af12, values='percentage', names='sentiment',color_discrete_sequence=['#4d79ff', '#33cc33', '#ff1a1a'] )#neutral,negative,positive
+                    #fig.update_traces(textposition='inside', textinfo='percent')
+                    #fig.update_layout(width=350, height=350)
+                    #fig.update_layout(
+                        #title='User2'
+                    #)
+                    #fig
                 #st.title("abc")
                 #col1,col2=st.columns(2)
                 #w#ith col1:
@@ -744,39 +1156,33 @@ if selected == "Dashboard":
                     #unique_counts
 
                 #st.title('Scatter Plot shows spread of Positive,Negative,Neutral Words')
-                st.write(
-                    "<h3 style='text-align: center;'>'Scatter Plot shows the spread of Positive,Negative,Neutral Words'</h3>",
+                #st.write(
+                    #"<h3 style='text-align: center;'>'Scatter Plot shows the spread of Positive,Negative,Neutral Words'</h3>",
                     # font-size: 16px;'>User 1</h1>",
-                    unsafe_allow_html=True)
-                col1, col2 = st.columns(2)
-                with col1:
-                    try:
-                        import plotly.express as px
-                        fig.update_layout(
-                        title='Scatter Plot shows spread of Positive,Negative,Neutral Words')
+                    #unsafe_allow_html=True)
+                #col1, col2 = st.columns(2)
+                #with col1:
+                    #try:
+                        #import plotly.express as px
+                        #fig.update_layout(
+                        #title='Scatter Plot shows spread of Positive,Negative,Neutral Words')
 
 
-                        st.write("<h1 style='text-align: center; font-size: 16px;'>User 1</h1>", unsafe_allow_html=True)
-                        fig = px.scatter(df11, x='Date', y='score', color='score', width =350, height=400, color_continuous_scale=['#ff1a1a', '#4d79ff',  '#33cc33']);
-                        fig.update_traces(marker=dict(size=3))
-                        fig.update_yaxes(tickvals=[-1, 0, 1])
-                        fig
-                    except:
-                        pass
-                with col2:
-                    try:
-                        import plotly.express as px
+                        #st.write("<h1 style='text-align: center; font-size: 16px;'>User 1</h1>", unsafe_allow_html=True)
+                        ##fig.update_traces(marker=dict(size=3))
+                        #fig.update_yaxes(tickvals=[-1, 0, 1])
+                        #fig
+                    #except:
+                        ##with col2:
+                    #try:
+                        #import plotly.express as px
 
-                        fig.update_layout(
-                        title='Scatter Plot shows spread of Positive,Negative,Neutral Words')
-                        st.write("<h1 style='text-align: center; font-size: 16px;'>User 2</h1>", unsafe_allow_html=True)
-
-                        fig = px.scatter(df12, x='Date', y='score', color='score', width=350, height=400, color_continuous_scale=['#ff1a1a', '#4d79ff',  '#33cc33']);
-                        fig.update_traces(marker=dict(size=3))
-                        fig.update_yaxes(tickvals=[-1, 0, 1])
-                        fig
-                    except:
-                        pass
+                        #fig.update_layout(
+                        #title='Scatter Plot shows spread of Positive,Negative,Neutral Words')
+                        ###fig.update_traces(marker=dict(size=3))
+                        ##fig
+                    #except:
+                        #pass
                 #st.title('Word Cloud shows Most Used Verbs and Nouns')
                 #col1, col2 = st.columns(2)
                 #with col1:

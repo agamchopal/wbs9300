@@ -9,6 +9,10 @@ from nltk.tokenize import word_tokenize, sent_tokenize
 nltk.download('punkt')
 stopWords = set(stopwords.words("english"))
 
+#def namq(df11):
+    #u=df11["user"].unique()
+    #return u
+
 
 def fetch_stats(selected_user, df):
     if selected_user != 'Overall':
@@ -54,6 +58,8 @@ def create_wordcloud(selected_user, df):
     temp['message'] = temp['message'].apply(remove_stop_words)
     df_wc = wc.generate(temp['message'].str.cat(sep=' '))
     return df_wc
+
+
 def most(df, k):
     df = df['user'][df['value'] == k]
     x = df.value_count().head(10)
@@ -292,3 +298,27 @@ def summ(df, selected_user):
         if i in sentenceValue and sentenceValue[i] > 3 * average and len(i) > 20:
             summary += ' ' + i
     return summary
+def nameq(df11):
+    for i in df11["user"]:
+        #unique_counts = df["user"].value_counts()
+        unique_counts=df11["user"].unique()
+        l=len( unique_counts)
+        one_third=l//3
+        first_one_third=unique_counts[:one_third]
+
+
+    return first_one_third
+def namer(df11):
+    for i in df11["user"]:
+        u= df11["user"].unique()
+        l1 = len(u)
+        one_third = l1 // 3
+        middle_one_third = u[one_third:2*one_third]
+    return middle_one_third
+def namep(df11):
+    for i in df11["user"]:
+        unique_names=df11["user"].unique()
+        t=len(unique_names)
+        two_third=(2* t)//3
+        remaining=unique_names[two_third:]
+        return remaining
