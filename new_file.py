@@ -572,7 +572,8 @@ try:
                         if  i == selecte_user[0]:
                             fig = px.pie(af, values='percentage', names='sentiment',
                                          color_discrete_sequence=['#4d79ff', '#33cc33','#ff1a1a' ])
-                            fig.update_traces(textposition='inside', textinfo='percent', pull=0.1)
+                            #fig.update_traces(textposition='inside', textinfo='percent', pull=0.1)
+                            fig.update_layout(legend=dict(orientation='h',x=0,y=0.1))
                             fig
             #except:
                 #pass
@@ -593,7 +594,8 @@ try:
                         if i == selecte_user[1]:
                             fig = px.pie(af, values='percentage', names='sentiment',
                                          color_discrete_sequence=['#4d79ff', '#33cc33','#ff1a1a' ]);
-                            fig.update_traces(textposition='inside', textinfo='percent', pull=0.1)
+                            #fig.update_traces(textposition='inside', textinfo='percent', pull=0.1)
+                            fig.update_layout(legend=dict(orientation='h', x=0, y=0.1))
                             fig
                 col1, col2 = st.columns(2)
                 st.write(
