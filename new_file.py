@@ -367,6 +367,8 @@ if selected == "Dashboard":
 
         # font-size: 16px;'>User 1</h1>",
         unsafe_allow_html=True)
+try:
+
     bytes_data = uploaded_file1.getvalue()
     # yeh data byte data ka stream hai isse string mein convert krna pdeega
     data = bytes_data.decode('utf-8')
@@ -390,6 +392,9 @@ if selected == "Dashboard":
     with col3:
         remaining = Helper.names(df)
         remaining
+except:
+    pass
+try:
 
 
 
@@ -566,7 +571,7 @@ if selected == "Dashboard":
                         af = pd.DataFrame({'sentiment': ['positive', 'negative', 'neutral'], 'percentage': arr})
                         if  i == selecte_user[0]:
                             fig = px.pie(af, values='percentage', names='sentiment',
-                                         color_discrete_sequence=['#ff1a1a', '#33cc33', '#4d79ff'])
+                                         color_discrete_sequence=['#4d79ff', '#33cc33','#ff1a1a' ])
                             fig.update_traces(textposition='inside', textinfo='percent', pull=0.1)
                             fig
             #except:
@@ -587,7 +592,7 @@ if selected == "Dashboard":
                         af = pd.DataFrame({'sentiment': ['positive', 'negative', 'neutral'], 'percentage': arr})
                         if i == selecte_user[1]:
                             fig = px.pie(af, values='percentage', names='sentiment',
-                                         color_discrete_sequence=['#ff1a1a', '#33cc33', '#4d79ff']);
+                                         color_discrete_sequence=['#4d79ff', '#33cc33','#ff1a1a' ]);
                             fig.update_traces(textposition='inside', textinfo='percent', pull=0.1)
                             fig
                 col1, col2 = st.columns(2)
@@ -876,33 +881,6 @@ if selected == "Dashboard":
 
                 df['score'] = df.apply(lambda row: sentiment2(row), axis=1)
 
-                st.write(
-                        "<h3 style='text-align: center;'>Available Users</h3>",
-                    # font-size: 16px;'>User 1</h1>",
-                        unsafe_allow_html=True)
-
-                #st.title("Available Users")
-                col1,col2,col3=st.columns(3)
-                #with col1:
-                    #middle_one_third=Helper.namee(df)
-                    #middle_one_third
-
-                #with col2:
-                    #df2=df2.Helper(df)
-                    #df2
-                #with col3:
-                    #df3=df3.Helper(df)
-                    #df3
-                with col1:
-                    first_one_third=Helper.name(df)
-                    first_one_third
-
-                with col2:
-                    middle_one_third=Helper.namee(df)
-                    middle_one_third
-                with col3:
-                    remaining=Helper.names(df)
-                    remaining
 
         except:
             pass
@@ -945,10 +923,7 @@ if selected == "Dashboard":
                 st.header(selected_user[0])
 
 
-                st.write(
-                    "<h3 style='text-align: center;'>Similar users and Text Summary</h3>",
-                    # font-size: 16px;'>User 1</h1>",
-                    unsafe_allow_html=True)
+
 
 
                 score = []
@@ -971,16 +946,18 @@ if selected == "Dashboard":
                 })
                 fig = px.bar(df3, x='name', y='percent', color='name', color_continuous_scale=['Greens'], width=450)
                 fig
+                st.write(
+                    "<h3 style='text-align: center;'>Similar users </h3>",
+                    # font-size: 16px;'>User 1</h1>",
+                    unsafe_allow_html=True)
+
         except:
             pass
         try:
             with col2:
                 selecte_user = list(df["user"])
                 st.header(selected_user[1])
-                st.write(
-                    "<h3 style='text-align: center;'>Similar users and Text Summary</h3>",
-                    # font-size: 16px;'>User 1</h1>",
-                    unsafe_allow_html=True)
+
                 score = []
                 this_set = set()
                 df1 = df[df['user'] == selecte_user[1]]
@@ -1001,13 +978,27 @@ if selected == "Dashboard":
                 })
                 fig = px.bar(df3, x='name', y='percent', color='name', color_continuous_scale=['Greens'], width=450)
                 fig
+                st.write(
+                    "<h3 style='text-align: center;'>Similar users </h3>",
+                    # font-size: 16px;'>User 1</h1>",
+                    unsafe_allow_html=True)
 
             with col1:
                 summary = Helper.summ(df, selecte_user[0])
                 st.markdown(summary)
+                st.write(
+                    "<h3 style='text-align: center;'>Summary </h3>",
+                    # font-size: 16px;'>User 1</h1>",
+                    unsafe_allow_html=True)
+
             with col2:
                 summary = Helper.summ(df, selecte_user[1])
                 st.markdown(summary)
+                st.write(
+                    "<h3 style='text-align: center;'>Summary </h3>",
+                    # font-size: 16px;'>User 1</h1>",
+                    unsafe_allow_html=True)
+
             col1, col2 = st.columns(2)
 
             with col1:
@@ -1021,6 +1012,8 @@ if selected == "Dashboard":
 
         except:
             pass
+except:
+    pass
     #elif user_input[:4] == 'name':
 
             #a = user_input
