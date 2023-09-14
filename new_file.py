@@ -289,18 +289,7 @@ if selected == "Home":
                             st.dataframe(emoji_df)
                         except:
                             pass
-                    # with col2:
-                    #    names = emoji_df['emoji']
-                    #    year = emoji_df['number']
-                    #    fig = px.pie(emoji_df, values=year, names= names)
-                    #    fig.update_traces(textposition='inside', textinfo='percent')
-                    #    fig
-                    #with col2:
-                        #try:
-                            #top_emoji_df, top_emoji, num = Helper.top_emoji(selected_user, emoji_df)
-                            #st.dataframe(top_emoji_df, width=100, height=100)
-                        #except:
-                            #pass
+
                     col1,=st.columns(1)
                     with col1:
                         try:
@@ -326,14 +315,6 @@ if selected == "Home":
                                 fig
                             except:
                                 pass
-                            #if selected == "num_of_users":
-                            #try:
-                               #with col1:
-                               #st.title('Number of users')
-                                    #unique_counts = Helper.num_of_users(df)
-                                    #unique_counts
-                         #except:
-                             #pass
 
                 except:
                     pass
@@ -367,34 +348,35 @@ if selected == "Dashboard":
 
         # font-size: 16px;'>User 1</h1>",
         unsafe_allow_html=True)
-try:
+    try:
 
-    bytes_data = uploaded_file1.getvalue()
-    # yeh data byte data ka stream hai isse string mein convert krna pdeega
-    data = bytes_data.decode('utf-8')
-    # ab file ka data screen pe dikhne lagega
-    df = preprocessor.preprocess(data)
-    st.write(
-        "<h3 style='text-align: center;'>Available Users</h3>",
-        # font-size: 16px;'>User 1</h1>",
-        unsafe_allow_html=True)
-    # st.title("Available Users")
+        bytes_data = uploaded_file1.getvalue()
+        # yeh data byte data ka stream hai isse string mein convert krna pdeega
+        data = bytes_data.decode('utf-8')
+        # ab file ka data screen pe dikhne lagega
+        df = preprocessor.preprocess(data)
+        st.write(
+            "<h3 style='text-align: center;'>Available Users</h3>",
+            # font-size: 16px;'>User 1</h1>",
+            unsafe_allow_html=True)
+        # st.title("Available Users")
 
-    col1, col2, col3 = st.columns(3)
+        col1, col2, col3 = st.columns(3)
 
-    with col1:
-        first_one_third = Helper.name(df)
-        first_one_third
+        with col1:
+            first_one_third = Helper.name(df)
+            first_one_third
 
-    with col2:
-        middle_one_third = Helper.namee(df)
-        middle_one_third
-    with col3:
-        remaining = Helper.names(df)
-        remaining
-except:
-    pass
-try:
+        with col2:
+            middle_one_third = Helper.namee(df)
+            middle_one_third
+        with col3:
+            remaining = Helper.names(df)
+            remaining
+    except:
+        pass
+
+
 
 
 
@@ -424,32 +406,8 @@ try:
         return message
 
 
-                #return unique_counts
-
-            #unique_counts = Helper.name(df1)
-            #unique_counts
 
 
-#st.title("User-User Comparison")
-#st.title("User Names")
-#col1,col2 = st.columns(2)
-     #with col1:
-    #def name(df):
-                    #for i in df11["user"]:
-            # unique_counts = df["user"].value_counts()
-                    #unique_counts = df11["user"].unique()
-                    #unique_counts
-        #return unique_counts
-
-
-    #with col1:
-        #unique_counts = Helper.name(df)
-        #unique_counts
-
-
-    ##st.title("Instruction:To do user to user comparision write user,name of first user,name of second user")
-    #st.markdown("<h3 style='text-align: center; color: green",
-                #unsafe_allow_html=True)
 
 
     if 'generated' not in st.session_state:
@@ -511,7 +469,7 @@ try:
 
 
 
-            #if selecte_user in list(df["user"]):
+
 
             if not (df["user"].isin([b, c])).any():
                 st.warning("Users not available")
@@ -519,33 +477,9 @@ try:
                 st.warning("First user is not available")
             elif not (df["user"].isin([c])).any():
                 st.warning("Second user is not available")
-            #elif (b in (df.users).any()) and (c not in (df.users).any()):
-                #st.warning("c user does not exist")
-            #elif (c in (df.users).any()) and (b not in (df.users).any()):
-                #st.warning("b user does not exist")
-
-            # elif not (df['user'].isin(b)).any() and (df['user'].isin(c)).any():
-            #     st.warning("b Users not available")
-            #
-            # elif not (df['user'].isin(c)).any() and (df['user'].isin(b)).any():
-            #     st.warning("c Users not available")
-            #if b   and c not in df["user"]:
-                #st.warning("p")
-            #elif b  in df["user"] or c not in df["user"]:
-                #st.warning("O")
-            #elif c in df["user"] or b not in df["user"]:
-                #st.warning("l")
 
 
 
-            #elif selected_user[0] not in df["user"] and selected_user[1] in df["user"]:
-                #st.warning("One User is not available")
-            #elif selected_user[0] in df["user"] and selected_user[1] not in df["user"]:
-                #st.warning("One User is not available")
-
-            # st.warning("Enter Valid users")
-            #if '' in [b,c]:
-                #st.warning("Enter users name")
             else:
                 col1, col2 = st.columns(2)
                 st.write(
@@ -554,9 +488,7 @@ try:
                     unsafe_allow_html=True)
                 with col1:
 
-                    #st.text_input("selecte_user[0]")
-                    #st.write(f"#{}")
-                    # df["user"]=selecte_user[0]
+
                     selecte_user = list(df["user"])
                     st.header(selected_user[0])
                     #st.markdown("<h1 style='font-size: 48px;'>(selected_user[0]</h1)>", unsafe_allow_html=True)
@@ -574,6 +506,16 @@ try:
                                          color_discrete_sequence=['#4d79ff', '#33cc33','#ff1a1a' ])
                             #fig.update_traces(textposition='inside', textinfo='percent', pull=0.1)
                             fig.update_layout(legend=dict(orientation='h',x=0,y=0.1))
+                            fig.update_traces(domain=dict(x=[0, 0.4]))
+
+                            #st.markdown("""
+                                                        #<style>
+                                                        #.#chart-container {
+                                                            #float: left;
+                                                        #}
+                                                        #</style>
+                                                        #""", unsafe_allow_html=True)
+                            #st.plotly_chart(fig, use_container_width=True, key='my_chart', className='chart-container')
                             fig
             #except:
                 #pass
@@ -594,8 +536,13 @@ try:
                         if i == selecte_user[1]:
                             fig = px.pie(af, values='percentage', names='sentiment',
                                          color_discrete_sequence=['#4d79ff', '#33cc33','#ff1a1a' ]);
+                            #{}
                             #fig.update_traces(textposition='inside', textinfo='percent', pull=0.1)
                             fig.update_layout(legend=dict(orientation='h', x=0, y=0.1))
+                            fig.update_traces(domain=dict(x=[0,0.4]))
+
+
+
                             fig
                 col1, col2 = st.columns(2)
                 st.write(
@@ -617,7 +564,19 @@ try:
                         # ((c / (a + b + c)) * 100)]
                         af1 = pd.DataFrame({'Positive': a, 'Neutral': b, 'Negative': c})
                         if i == selecte_user[0]:
-                            fig = px.scatter(af1)  # , values='percentage', names='sentiment',
+                            fig = px.scatter(af1)
+                            fig.update_layout(
+                                autosize=False,
+                                width=500,  # Set the total width of the figure
+                                height=400,  # Set the total height of the figure
+                                margin=dict(l=0, r=0, t=30, b=0),  # Adjust margins as needed
+                                paper_bgcolor='white',  # Set background color
+                            )
+
+                            #fig.update_layout(margin=dict(l=-1))
+                            #fig.update_traces(domain=dict(x=[0, 0.4]))
+                            #fig.update_xaxes(range=[min(x_data),max(x_data)*0.8])
+                            # , values='percentage', names='sentiment',
                             # color_discrete_sequence=['#ff1a1a', '#33cc33', '#4d79ff'])
                             # fig.update_traces(textposition='inside', textinfo='percent', pull=0.1)
                             fig
@@ -634,7 +593,15 @@ try:
                         # ((c / (a + b + c)) * 100)]
                         af2 = pd.DataFrame({'Positive': a3, 'Neutral': b3, 'Negative': c3})
                         if i == selecte_user[1]:
-                            fig = px.scatter(af2)  # , values='percentage', names='sentiment',
+                            fig = px.scatter(af2)
+                            fig.update_layout(
+                                autosize=False,
+                                width=450,  # Set the total width of the figure
+                                height=400,  # Set the total height of the figure
+                                margin=dict(l=0, r=0, t=30, b=0),  # Adjust margins as needed
+                                paper_bgcolor='white',  # Set background color
+                            )
+                            # , values='percentage', names='sentiment',
                             # color_discrete_sequence=['#ff1a1a', '#33cc33', '#4d79ff'])
                             # fig.update_traces(textposition='inside', textinfo='percent', pull=0.1)
                             fig
@@ -644,28 +611,8 @@ try:
 
 
 
-                # daily 1
-                #st.title('Timeline')
-                #col1, col2 = st.columns(2)
-                #with col1:
-                    #try:
-                        #timeline = Helper.day_timeline(selecte_user[0], df)
-                        #fig = px.line(timeline, x='day_name', y='message', title=selecte_user[0] + ' DayWise activity',
-                                      #width=350, height=400)
-                        #fig
-                    #except:
-                        #pass
-                # daily 2
-                #with col2:
-                    #try:
-                        #timeline = Helper.day_timeline(selecte_user[1], df)
-                        #fig = px.line(timeline, x='day_name', y='message', title=selecte_user[1] + ' DayWise activity',
-                                      #width=400, height=400)
-                        #fig
-                    #except:
-                        #pass
-                # WordCloud
-                #st.title('WordCloud')
+
+
 
                 col1, col2 = st.columns(2)
 
@@ -1014,247 +961,4 @@ try:
 
         except:
             pass
-except:
-    pass
-    #elif user_input[:4] == 'name':
 
-            #a = user_input
-
-            #data_points = 1500
-            #if uploaded_file is not None:
-                #bytes_data = uploaded_file.getvalue()
-                # yeh data byte data ka stream hai isse string mein convert krna pdeega
-                #data = bytes_data.decode('utf-8')
-                # ab file ka data screen pe dikhne lagega
-                #df11, df12 = preprocessor.preprocessor5(data, int(data_points))
-                #from nltk.sentiment.vader import SentimentIntensityAnalyzer
-
-
-                #def sentiment(d):
-                    #if d["pos"] >= d["neg"] and d["pos"] >= 0.1:
-                        #return 1
-                    #elif d["neg"] >= d["pos"] and d["neg"] >= 0.1:
-                        #return -1
-                    #else:
-                        #return 0
-
-
-                # Object
-                #sentiments = SentimentIntensityAnalyzer()
-                #df11["pos"] = [sentiments.polarity_scores(i)["pos"] for i in df11["message"]]  # Positive
-                #df11["neg"] = [sentiments.polarity_scores(i)["neg"] for i in df11["message"]]  # Negative
-                #df11["nu"] = [sentiments.polarity_scores(i)["neu"] for i in df11["message"]]
-                #df11['value'] = df11.apply(lambda row: sentiment(row), axis=1)
-
-                #df12["pos"] = [sentiments.polarity_scores(i)["pos"] for i in df12["message"]]  # Positive
-                #df12["neg"] = [sentiments.polarity_scores(i)["neg"] for i in df12["message"]]  # Negative
-                #df12["nu"] = [sentiments.polarity_scores(i)["neu"] for i in df12["message"]]
-                #df12['value'] = df12.apply(lambda row: sentiment(row), axis=1)
-
-
-                #def sentiment2(d):
-                    #return d["pos"] - d["neg"]
-
-
-                #df11['score'] = df11.apply(lambda row: sentiment2(row), axis=1)
-                #df12['score'] = df12.apply(lambda row: sentiment2(row), axis=1)
-
-                #col1,=st.columns(1)
-                #with col1:
-                    #u=Helper.namq(df11)
-                #st.write(
-                    #"<h3 style='text-align: center;'>Available Users</h3>",
-                    # font-size: 16px;'>User 1</h1>",
-                    #unsafe_allow_html=True)
-                # st.title("Available Users")
-                #col1, col2, col3 = st.columns(3)
-                # with col1:
-                # middle_one_third=Helper.namee(df)
-                # middle_one_third
-
-                # with col2:
-                # df2=df2.Helper(df)
-                # df2
-                # with col3:
-                # df3=df3.Helper(df)
-                # df3
-                #with col1:
-                    #first_one_third = Helper.nameq(df11)
-                    #first_one_third
-
-                #with col2:
-                    #middle_one_third = Helper.namer(df11)
-                    #middle_one_third
-                #with col3:
-                    #remaining = Helper.namep(df11)
-                    #remaining
-                    #u
-
-
-
-
-
-
-
-
-
-
-                #st.title('Pie Chart shows percentage of Negative,Positive,Neutral Sentiments')
-                #st.write(
-                    #"<h3 style='text-align: center;'>'Pie Chart shows percentage of Negative,Positive,Neutral Sentiments'</h3>",
-                    # font-size: 16px;'>User 1</h1>",
-                    #unsafe_allow_html=True)
-                #col1, col2 = st.columns(2)
-                #with col1:
-                    #p = len(df11[df11['value'] == 1])
-                    #neg = len(df11[df11['value'] == -1])
-                    #nu = len(df11[df11['value'] == 0])
-                    ##int((nu / (p + neg + nu)) * 100-20)]
-                    #af11 = pd.DataFrame(
-                        #{'sentiment': ['positive', 'negative', 'neutral'], 'percentage': arr})
-                    #colors  = ['FF0000','0000FF','00FF00']
-                    #fig = px.pie(af11, values='percentage', names='sentiment', color_discrete_sequence=['#4d79ff', '#33cc33', '#ff1a1a'] )
-                    #fig.update_traces(textposition='inside', textinfo='percent')
-                    #fig.update_layout(width=350, height=350)
-                    #fig.update_layout(
-                        #title='User1'
-                                      #  )
-                    #fig
-
-                #with col2:
-                    #p = len(df12[df12['value'] == 1])
-                    #neg = len(df12[df12['value'] == -1])
-                    #nu = len(df12[df12['value'] == 0])
-                    #arr = [int((p / (p + neg + nu)) * 100-5), int((neg / (p + neg + nu)) * 100 + 30),
-                           #int((nu / (p + neg + nu)) * 100-25)]
-                    #af12 = pd.DataFrame(
-                        #{'sentiment': ['positive', 'neutral', 'negative'], 'percentage': arr})
-                    #fig = px.pie(af12, values='percentage', names='sentiment',color_discrete_sequence=['#4d79ff', '#33cc33', '#ff1a1a'] )#neutral,negative,positive
-                    #fig.update_traces(textposition='inside', textinfo='percent')
-                    #fig.update_layout(width=350, height=350)
-                    #fig.update_layout(
-                        #title='User2'
-                    #)
-                    #fig
-                #st.title("abc")
-                #col1,col2=st.columns(2)
-                #w#ith col1:
-                    #try:
-                    #def name(df11):
-                        #for i in df["user"]:
-                            # unique_counts = df["user"].value_counts()
-                            #unique_counts = df["user"].unique()
-                        #return unique_counts
-
-
-                    #unique_counts = Helper.name(df11)
-                    #unique_counts
-
-                #st.title('Scatter Plot shows spread of Positive,Negative,Neutral Words')
-                #st.write(
-                    #"<h3 style='text-align: center;'>'Scatter Plot shows the spread of Positive,Negative,Neutral Words'</h3>",
-                    # font-size: 16px;'>User 1</h1>",
-                    #unsafe_allow_html=True)
-                #col1, col2 = st.columns(2)
-                #with col1:
-                    #try:
-                        #import plotly.express as px
-                        #fig.update_layout(
-                        #title='Scatter Plot shows spread of Positive,Negative,Neutral Words')
-
-
-                        #st.write("<h1 style='text-align: center; font-size: 16px;'>User 1</h1>", unsafe_allow_html=True)
-                        ##fig.update_traces(marker=dict(size=3))
-                        #fig.update_yaxes(tickvals=[-1, 0, 1])
-                        #fig
-                    #except:
-                        ##with col2:
-                    #try:
-                        #import plotly.express as px
-
-                        #fig.update_layout(
-                        #title='Scatter Plot shows spread of Positive,Negative,Neutral Words')
-                        ###fig.update_traces(marker=dict(size=3))
-                        ##fig
-                    #except:
-                        #pass
-                #st.title('Word Cloud shows Most Used Verbs and Nouns')
-                #col1, col2 = st.columns(2)
-                #with col1:
-                    #try:
-                        #bytes_data = uploaded_file.getvalue()
-                        #data = bytes_data.decode('utf-8')
-                        #doc = nlp(data[3000:])
-                        #store = []
-                        #for token in doc:
-                            #if (token.pos_ == "VERB" or token.pos_ == "NOUN") and len(token.text) > 2:
-                                #store.append(token.text)
-                        #text = ''
-                        #for i in store:
-                            #text = text + i + ' '
-                        #from wordcloud import WordCloud, STOPWORDS
-                        #import matplotlib.pyplot as plt
-                        #df_wc = WordCloud(width=350, height=350,
-                                              #background_color='white',
-                                              #stopwords=set(STOPWORDS),
-                                              #min_font_size=10).generate(text)
-
-                        #fig, ax = plt.subplots()
-                        #plt.imshow(df_wc)
-                        #st.write('user1')
-                        #st.pyplot(fig)
-                    #except:
-                        #pass
-                #with col2:
-                    #try:
-                        #bytes_data = uploaded_file.getvalue()
-                        #data = bytes_data.decode('utf-8')
-                        #doc = nlp(data[:3000])
-                        #store = []
-                        #for token in doc:
-                            #if (token.pos_ == "VERB" or token.pos_ == "NOUN") and len(token.text) > 2:
-                                #store.append(token.text)
-                        #text = ''
-                        #for i in store:
-                            #text = text + i + ' '
-                        #from wordcloud import WordCloud, STOPWORDS
-                        #import matplotlib.pyplot as plt
-
-                        #df_wc = WordCloud(width=350, height=350,
-                                          #background_color='white',
-                                          #stopwords=set(STOPWORDS),
-                                          #min_font_size=10).generate(text)
-
-                        #fig, ax = plt.subplots()
-                        #plt.imshow(df_wc)
-                        #st.write('user2')
-                        #st.pyplot(fig)
-                    #except:
-                        #pass
-                #st.title('Timeline')
-                #col1, col2 = st.columns(2)
-                #with col1:
-                    #timeline = Helper.day_timeline('Overall', df11)
-                    #fig = px.bar(timeline, x='day_name', y='message', title='',
-                                  #width=350, height=400)
-
-                    #fig
-                # daily
-                #with col2:
-                    #timeline = Helper.day_timeline('Overall', df12)
-                    #fig = px.bar(timeline, x='day_name', y='message', title='',
-                                  #width=350, height=400)
-                    #fig
-    #else:
-        #try:
-            #output = generate_response(user_input)
-            #st.session_state.past.append(user_input)
-            #st.session_state.generated.append(output)
-
-            #if st.session_state['generated']:
-
-                #for i in range(len(st.session_state['generated']) - 1, -1, -1):
-                   # message(st.session_state["generated"][i], key=str(i))
-                    #message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')
-        #except:
-            #pass
